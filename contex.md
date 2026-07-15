@@ -35,4 +35,7 @@ This file logs all architectural decisions, actions taken, and changes made to t
 ### [2026-07-15] Verification & Validation
 - Verified frontend package builds. Ran Vite production bundler, compiling successfully in 357ms.
 - Committed all frontend assets and pushed to GitHub main branch.
+- Created `backend/db/migrate.js` script to automatically create PostgreSQL schemas.
+- Executed migrations to build SQL tables on Supabase.
+- Bootstrapped initial Admin account (admin@apexconfig.com / Password123) successfully.
 
