@@ -19,25 +19,25 @@ This file outlines the completed and pending implementations for the ApexConfig 
 - [x] 🟢 Initialize Backend structure (Node.js + Express)
 
 ## 2. Backend Development (Node.js + Express)
-- [ ] ⚪ Install dependencies (`express`, `cors`, `dotenv`, `pg`, `multer`, `cloudinary`, `bcryptjs`, `jsonwebtoken`)
-- [ ] ⚪ Setup environment variables configuration (`.env.example`)
-- [ ] ⚪ Setup PostgreSQL client pool connection (Supabase)
-- [ ] ⚪ Implement Auth routes (`POST /api/auth/login`, `POST /api/auth/register`)
-- [ ] ⚪ Create auth middlewares (`requireAuth`, `requireRole`)
-- [ ] ⚪ Create health check endpoint `GET /api/health` (For DB ping cron jobs)
-- [ ] ⚪ Setup Cloudinary upload middleware using `multer`
-- [ ] ⚪ Implement Customer API routes (`GET /api/customers`, `POST /api/customers` - Auth protected)
-- [ ] ⚪ Implement Inventory API routes:
-  - [ ] ⚪ `GET /api/inventory` (Only active parts)
-  - [ ] ⚪ `GET /api/inventory/all` (Admin view)
-  - [ ] ⚪ `POST`, `PUT` (Admin only)
-  - [ ] ⚪ `DELETE /api/inventory/:id` (Soft delete -> `is_active = false`, Admin only)
-- [ ] ⚪ Implement Machines API routes:
-  - [ ] ⚪ `GET /api/machines`
-  - [ ] ⚪ `POST`, `PUT`, `DELETE` (Admin only)
-- [ ] ⚪ Implement Quotes API routes:
-  - [ ] ⚪ `GET /api/quotes` (Admin only)
-  - [ ] ⚪ `POST /api/quotes` (Auth protected)
+- [x] 🟢 Install dependencies (`express`, `cors`, `dotenv`, `pg`, `multer`, `cloudinary`, `bcryptjs`, `jsonwebtoken`)
+- [x] 🟢 Setup environment variables configuration (`.env.example`)
+- [x] 🟢 Setup PostgreSQL client pool connection (Supabase)
+- [x] 🟢 Implement Auth routes (`POST /api/auth/login`, `POST /api/auth/register`)
+- [x] 🟢 Create auth middlewares (`requireAuth`, `requireRole`)
+- [x] 🟢 Create health check endpoint `GET /api/health` (For DB ping cron jobs)
+- [x] 🟢 Setup Cloudinary upload middleware using `multer`
+- [x] 🟢 Implement Customer API routes (`GET /api/customers`, `POST /api/customers` - Auth protected)
+- [x] 🟢 Implement Inventory API routes:
+  - [x] 🟢 `GET /api/inventory` (Only active parts)
+  - [x] 🟢 `GET /api/inventory/all` (Admin view)
+  - [x] 🟢 `POST`, `PUT` (Admin only)
+  - [x] 🟢 `DELETE /api/inventory/:id` (Soft delete -> `is_active = false`, Admin only)
+- [x] 🟢 Implement Machines API routes:
+  - [x] 🟢 `GET /api/machines`
+  - [x] 🟢 `POST`, `PUT`, `DELETE` (Admin only)
+- [x] 🟢 Implement Quotes API routes:
+  - [x] 🟢 `GET /api/quotes` (Admin only)
+  - [x] 🟢 `POST /api/quotes` (Auth protected)
 
 ## 3. Frontend Development (React + Vite)
 - [ ] ⚪ Set up React Router, AuthContext, and main layout
