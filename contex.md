@@ -15,3 +15,4 @@ This file logs all architectural decisions, actions taken, and changes made to t
 - Created `frontend/` subdirectory containing Vite + React base template.
 - Created `backend/` subdirectory with an empty `package.json` package file.
 - Created `todo.md` to track implementation tasks and progress.
+- Updated implementation plan to incorporate Authentication & RBAC (JWT + roles) and Referential Integrity via soft deletes on inventory.
