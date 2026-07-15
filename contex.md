@@ -38,4 +38,5 @@ This file logs all architectural decisions, actions taken, and changes made to t
 - Created `backend/db/migrate.js` script to automatically create PostgreSQL schemas.
 - Executed migrations to build SQL tables on Supabase.
 - Bootstrapped initial Admin account (admin@apexconfig.com / Password123) successfully.
+- Verified Cloudinary upload stream. Switched to unified CLOUDINARY_URL format and confirmed image buffer uploads.
 

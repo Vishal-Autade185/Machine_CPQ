@@ -5,12 +5,16 @@ const cloudinary = require('cloudinary').v2;
 const { Readable } = require('stream');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
+// Configure Cloudinary dynamically (supporting both unified URL and individual keys)
+if (process.env.CLOUDINARY_URL) {
+  cloudinary.config();
+} else {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
+}
 
 // Configure Multer memory storage
 const storage = multer.memoryStorage();
