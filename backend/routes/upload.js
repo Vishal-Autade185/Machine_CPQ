@@ -52,8 +52,11 @@ router.post('/', requireAuth, requireRole(['admin']), upload.single('image'), as
     return res.status(400).json({ error: "No image file provided." });
   }
 
-  // Verify Cloudinary is configured
-  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+  // Verify Cloudinary is configured (via unified URL or individual keys)
+  const isUrlConfigured = !!process.env.CLOUDINARY_URL;
+  const isKeysConfigured = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
+  if (!isUrlConfigured && !isKeysConfigured) {
     return res.status(500).json({ error: "Cloudinary is not configured. Add credentials in environment settings." });
   }
 
