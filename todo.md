@@ -40,21 +40,21 @@ This file outlines the completed and pending implementations for the ApexConfig 
   - [x] 🟢 `POST /api/quotes` (Auth protected)
 
 ## 3. Frontend Development (React + Vite)
-- [ ] ⚪ Set up React Router, AuthContext, and main layout
-- [ ] ⚪ Implement Login screen and credentials validator
-- [ ] ⚪ Implement Frontend Route Guards (Redirect non-admins from `/admin`)
-- [ ] ⚪ Implement Customer Intake & Registration screens (Launchpad tabs)
-- [ ] ⚪ Implement Machine Catalog selection grid
-- [ ] ⚪ Implement Interactive Visual Configurator:
-  - [ ] ⚪ Canvas overlay mapping for absolute percentage hotspot plotting
-  - [ ] ⚪ Pulsing red/grey hotspots matching dynamic states
-  - [ ] ⚪ Floating selection popovers linked to active coordinate nodes
-  - [ ] ⚪ Sidebar calculation board reflecting totals in real-time
-- [ ] ⚪ Implement Quote Preview overlay with print/A4 styles
-- [ ] ⚪ Implement Control Center (Admin dashboard):
-  - [ ] ⚪ Inventory CRUD tables (including soft delete toggle)
-  - [ ] ⚪ Image Mapping Studio: Click-to-add hotspots & define dropdown mappings
-  - [ ] ⚪ Pipeline summary cards & Quote History log
+- [x] 🟢 Set up React Router, AuthContext, and main layout
+- [x] 🟢 Implement Login screen and credentials validator
+- [x] 🟢 Implement Frontend Route Guards (Redirect non-admins from `/admin`)
+- [x] 🟢 Implement Customer Intake & Registration screens (Launchpad tabs)
+- [x] 🟢 Implement Machine Catalog selection grid
+- [x] 🟢 Implement Interactive Visual Configurator:
+  - [x] 🟢 Canvas overlay mapping for absolute percentage hotspot plotting
+  - [x] 🟢 Pulsing red/grey hotspots matching dynamic states
+  - [x] 🟢 Floating selection popovers linked to active coordinate nodes
+  - [x] 🟢 Sidebar calculation board reflecting totals in real-time
+- [x] 🟢 Implement Quote Preview overlay with print/A4 styles
+- [x] 🟢 Implement Control Center (Admin dashboard):
+  - [x] 🟢 Inventory CRUD tables (including soft delete toggle)
+  - [x] 🟢 Image Mapping Studio: Click-to-add hotspots & define dropdown mappings
+  - [x] 🟢 Pipeline summary cards & Quote History log
 
 ## 4. Verification & Deployment
 - [ ] ⚪ E2E manual and automated checkouts
