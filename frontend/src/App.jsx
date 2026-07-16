@@ -4,6 +4,7 @@ import CustomerIntake from './components/CustomerIntake';
 import MachineCatalog from './components/MachineCatalog';
 import VisualConfigurator from './components/VisualConfigurator';
 import ControlCenter from './components/ControlCenter';
+import config from './config';
 import './App.css';
 
 export default function App() {
@@ -31,7 +32,7 @@ export default function App() {
 
   const fetchUserSession = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/me`, {
+      const response = await fetch(`${config.API_URL}/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
