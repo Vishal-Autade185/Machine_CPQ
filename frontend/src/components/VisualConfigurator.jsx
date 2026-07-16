@@ -248,7 +248,7 @@ export default function VisualConfigurator({ token, customer, machine, onBack, o
                         {dd.options.map(opt => {
                           const item = getPartDetails(opt.partId);
                           // Calculate item sub-label including rate
-                          const subLabel = `${item.name} (${opt.quantity > 1 ? `${opt.quantity}x` : ''} $${(parseFloat(item.rate) * opt.quantity).toFixed(2)})`;
+                          const subLabel = `${item.name} (${opt.quantity > 1 ? `${opt.quantity}x` : ''} ₹${(parseFloat(item.rate) * opt.quantity).toFixed(2)})`;
                           return (
                             <option key={opt.partId} value={opt.partId}>
                               {subLabel}
@@ -300,8 +300,8 @@ export default function VisualConfigurator({ token, customer, machine, onBack, o
                     <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)' }}>SKU: {item.sku}</span>
                   </div>
                   <div style={{ textAlignment: 'right', fontWeight: 600 }}>
-                    <span>{item.quantity} × ${item.rate.toFixed(2)}</span>
-                    <span style={{ display: 'block', color: 'var(--accent-cyan)' }}>${item.total.toFixed(2)}</span>
+                    <span>{item.quantity} × ₹{item.rate.toFixed(2)}</span>
+                    <span style={{ display: 'block', color: 'var(--accent-cyan)' }}>₹{item.total.toFixed(2)}</span>
                   </div>
                 </div>
               ))
@@ -311,7 +311,7 @@ export default function VisualConfigurator({ token, customer, machine, onBack, o
           <div className="estimate-total-bar">
             <div className="total-row">
               <span>Total:</span>
-              <span style={{ color: 'var(--accent-cyan)' }}>${grandTotal.toFixed(2)}</span>
+              <span style={{ color: 'var(--accent-cyan)' }}>₹{grandTotal.toFixed(2)}</span>
             </div>
 
             {unconfiguredMandatoryCount > 0 && (
@@ -409,8 +409,8 @@ export default function VisualConfigurator({ token, customer, machine, onBack, o
                         <td><code>{item.partNumber}</code></td>
                         <td>{item.name}</td>
                         <td style={{ textAlign: 'center' }}>{item.quantity}</td>
-                        <td style={{ textAlign: 'right' }}>${parseFloat(item.rate).toFixed(2)}</td>
-                        <td style={{ textAlign: 'right', fontWeight: 600 }}>${parseFloat(item.total).toFixed(2)}</td>
+                        <td style={{ textAlign: 'right' }}>₹{parseFloat(item.rate).toFixed(2)}</td>
+                        <td style={{ textAlign: 'right', fontWeight: 600 }}>₹{parseFloat(item.total).toFixed(2)}</td>
                       </tr>
                     ))
                     : savedQuote.items.map((item, idx) => (
@@ -418,8 +418,8 @@ export default function VisualConfigurator({ token, customer, machine, onBack, o
                         <td><code>{item.partNumber}</code></td>
                         <td>{item.name}</td>
                         <td style={{ textAlign: 'center' }}>{item.quantity}</td>
-                        <td style={{ textAlign: 'right' }}>${parseFloat(item.rate).toFixed(2)}</td>
-                        <td style={{ textAlign: 'right', fontWeight: 600 }}>${parseFloat(item.total).toFixed(2)}</td>
+                        <td style={{ textAlign: 'right' }}>₹{parseFloat(item.rate).toFixed(2)}</td>
+                        <td style={{ textAlign: 'right', fontWeight: 600 }}>₹{parseFloat(item.total).toFixed(2)}</td>
                       </tr>
                     ))
                   }
@@ -429,7 +429,7 @@ export default function VisualConfigurator({ token, customer, machine, onBack, o
               <div className="quote-total">
                 <span>Grand Total:</span>
                 <span style={{ color: 'var(--accent-cyan)', marginLeft: '1rem' }}>
-                  ${parseFloat(savedQuote.total).toFixed(2)}
+                  ₹{parseFloat(savedQuote.total).toFixed(2)}
                 </span>
               </div>
 

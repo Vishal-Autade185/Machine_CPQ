@@ -11,12 +11,29 @@ export default function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [user, setUser] = useState(null);
   
+  // Theme Toggle State
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  
   // Sales Session State
   const [customer, setCustomer] = useState(null);
   const [machine, setMachine] = useState(null);
   
   // Navigation: 'login' | 'intake' | 'catalog' | 'configurator' | 'admin'
   const [view, setView] = useState('login');
+
+  // Sync theme class with body element
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   // Verify token and fetch user session details on mount
   useEffect(() => {
@@ -123,6 +140,14 @@ export default function App() {
             )}
 
             <div className="d-flex align-center gap-1" style={{ borderLeft: '1px solid var(--border-color)', paddingLeft: '1.5rem', marginLeft: '0.5rem' }}>
+              <button 
+                className="nav-btn theme-toggle-btn" 
+                onClick={toggleTheme} 
+                style={{ fontSize: '1.15rem', border: 'none', background: 'transparent', cursor: 'pointer', padding: '0.2rem', display: 'flex', alignItems: 'center' }}
+                title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              >
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </button>
               <span className={`badge ${user.role}`}>
                 {user.role}
               </span>
@@ -133,6 +158,20 @@ export default function App() {
             </div>
           </nav>
         </header>
+      )}
+
+      {/* Floating Theme Toggle (only visible during login) */}
+      {view === 'login' && (
+        <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', zIndex: 1000 }}>
+          <button 
+            className="nav-btn theme-toggle-btn glass-panel" 
+            onClick={toggleTheme}
+            style={{ fontSize: '1.2rem', border: '1px solid var(--border-color)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: 'var(--shadow-glow)', background: 'var(--bg-card)' }}
+            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+        </div>
       )}
 
       {/* Main Routing Board */}

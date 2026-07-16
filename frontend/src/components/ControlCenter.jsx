@@ -457,7 +457,7 @@ export default function ControlCenter({ token }) {
       {!loading && (
         <>
           {/* ================================================== */}
-          // TAB 1: INVENTORY CRUD TABLE
+          {/* TAB 1: INVENTORY CRUD TABLE */}
           {/* ================================================== */}
           {activeTab === 'inventory' && (
             <div>
@@ -500,7 +500,7 @@ export default function ControlCenter({ token }) {
                           <td><code>{part.sku}</code></td>
                           <td style={{ fontWeight: 600 }}>{part.name}</td>
                           <td>{part.category || '—'}</td>
-                          <td>${parseFloat(part.rate).toFixed(2)}</td>
+                          <td>₹{parseFloat(part.rate).toFixed(2)}</td>
                           <td>
                             <span className={`badge ${part.is_active ? 'active' : 'inactive'}`}>
                               {part.is_active ? 'Active' : 'Inactive'}
@@ -530,7 +530,7 @@ export default function ControlCenter({ token }) {
           )}
 
           {/* ================================================== */}
-          // TAB 2: MACHINE SETUP DASHBOARD
+          {/* TAB 2: MACHINE SETUP DASHBOARD */}
           {/* ================================================== */}
           {activeTab === 'machines' && (
             <div>
@@ -575,18 +575,18 @@ export default function ControlCenter({ token }) {
           )}
 
           {/* ================================================== */}
-          // TAB 3: PIPELINE SUMMARY & QUOTE HISTORY LOGS
+          {/* TAB 3: PIPELINE SUMMARY & QUOTE HISTORY LOGS */}
           {/* ================================================== */}
           {activeTab === 'quotes' && (
             <div>
               <div className="kpi-row">
                 <div className="kpi-card glass-panel">
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Total Pipeline Value</span>
-                  <div className="kpi-num">${pipelineTotal.toFixed(2)}</div>
+                  <div className="kpi-num">₹{pipelineTotal.toFixed(2)}</div>
                 </div>
                 <div className="kpi-card glass-panel">
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Average Proposal Size</span>
-                  <div className="kpi-num">${averageQuoteVal.toFixed(2)}</div>
+                  <div className="kpi-num">₹{averageQuoteVal.toFixed(2)}</div>
                 </div>
                 <div className="kpi-card glass-panel">
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Total Quotes Issued</span>
@@ -632,7 +632,7 @@ export default function ControlCenter({ token }) {
                           <td style={{ fontWeight: 600 }}>{quote.customer_details.companyName}</td>
                           <td>{quote.machine_name}</td>
                           <td style={{ textAlign: 'right', fontWeight: 700, color: 'var(--accent-cyan)' }}>
-                            ${parseFloat(quote.total).toFixed(2)}
+                            ₹{parseFloat(quote.total).toFixed(2)}
                           </td>
                         </tr>
                       ))
@@ -694,7 +694,7 @@ export default function ControlCenter({ token }) {
               </div>
 
               <div className="form-group">
-                <label htmlFor="rate">Base Rate ($) *</label>
+                <label htmlFor="rate">Base Rate (₹) *</label>
                 <input
                   type="number"
                   step="0.01"
@@ -789,14 +789,14 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
   const [activeDropdownIndex, setActiveDropdownIndex] = useState(null);
   const [partSearchQuery, setPartSearchQuery] = useState('');
 
-  // Sync state with selected hotspot changes
+  // Sync state with selected hotspot changes (trigger when selected hotspot ID changes)
   useEffect(() => {
     setName(hotspot.name);
     setType(hotspot.type);
     setDropdowns(hotspot.dropdowns || []);
     setActiveDropdownIndex(null);
     setPartSearchQuery('');
-  }, [hotspot]);
+  }, [hotspot.id]);
 
   const handleAddField = () => {
     const newDd = {
@@ -804,53 +804,108 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
       label: 'Select Component',
       options: [] // [{ partId, quantity }]
     };
-    setDropdowns(prev => [...prev, newDd]);
+    const nextDropdowns = [...dropdowns, newDd];
+    setDropdowns(nextDropdowns);
+    onSave({
+      ...hotspot,
+      name,
+      type,
+      dropdowns: nextDropdowns
+    });
   };
 
   const handleRemoveField = (idx) => {
-    setDropdowns(prev => prev.filter((_, i) => i !== idx));
+    const nextDropdowns = dropdowns.filter((_, i) => i !== idx);
+    setDropdowns(nextDropdowns);
     if (activeDropdownIndex === idx) {
       setActiveDropdownIndex(null);
     }
+    onSave({
+      ...hotspot,
+      name,
+      type,
+      dropdowns: nextDropdowns
+    });
   };
 
   const handleDropdownLabelChange = (idx, labelVal) => {
-    setDropdowns(prev => prev.map((dd, i) => i === idx ? { ...dd, label: labelVal } : dd));
+    const nextDropdowns = dropdowns.map((dd, i) => i === idx ? { ...dd, label: labelVal } : dd);
+    setDropdowns(nextDropdowns);
+    onSave({
+      ...hotspot,
+      name,
+      type,
+      dropdowns: nextDropdowns
+    });
+  };
+
+  const handleNameChange = (val) => {
+    setName(val);
+    onSave({
+      ...hotspot,
+      name: val,
+      type,
+      dropdowns
+    });
   };
 
   const handleAddOptionToDropdown = (ddIdx, partId) => {
-    setDropdowns(prev => prev.map((dd, i) => {
-      if (i !== ddIdx) return dd;
-      
-      // Prevent duplicates in same dropdown
-      if (dd.options.some(o => o.partId === partId)) return dd;
+    // Prevent duplicates in same dropdown
+    const targetDd = dropdowns[ddIdx];
+    if (targetDd.options.some(o => o.partId === partId)) return;
 
+    const nextDropdowns = dropdowns.map((dd, i) => {
+      if (i !== ddIdx) return dd;
       return {
         ...dd,
         options: [...dd.options, { partId, quantity: 1 }]
       };
-    }));
+    });
+
+    setDropdowns(nextDropdowns);
+    onSave({
+      ...hotspot,
+      name,
+      type,
+      dropdowns: nextDropdowns
+    });
     setPartSearchQuery('');
   };
 
   const handleRemoveOptionFromDropdown = (ddIdx, partId) => {
-    setDropdowns(prev => prev.map((dd, i) => {
+    const nextDropdowns = dropdowns.map((dd, i) => {
       if (i !== ddIdx) return dd;
       return {
         ...dd,
         options: dd.options.filter(o => o.partId !== partId)
       };
-    }));
+    });
+
+    setDropdowns(nextDropdowns);
+    onSave({
+      ...hotspot,
+      name,
+      type,
+      dropdowns: nextDropdowns
+    });
   };
 
   const handleOptionQtyChange = (ddIdx, partId, qtyVal) => {
-    setDropdowns(prev => prev.map((dd, i) => {
+    const nextDropdowns = dropdowns.map((dd, i) => {
       if (i !== ddIdx) return dd;
       return {
         ...dd,
         options: dd.options.map(o => o.partId === partId ? { ...o, quantity: parseInt(qtyVal, 10) || 1 } : o)
       };
-    }));
+    });
+
+    setDropdowns(nextDropdowns);
+    onSave({
+      ...hotspot,
+      name,
+      type,
+      dropdowns: nextDropdowns
+    });
   };
 
   const triggerSave = () => {
@@ -879,8 +934,7 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
           id="hname"
           className="form-control"
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          onBlur={triggerSave}
+          onChange={(e) => handleNameChange(e.target.value)}
         />
       </div>
 
@@ -927,12 +981,11 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
                 style={{ height: '32px', fontSize: '0.85rem', padding: '0.25rem 0.5rem' }}
                 value={dd.label}
                 onChange={(e) => handleDropdownLabelChange(ddIdx, e.target.value)}
-                onBlur={triggerSave}
               />
               <button 
                 type="button" 
                 className="option-remove-btn" 
-                onClick={() => { handleRemoveField(ddIdx); triggerSave(); }}
+                onClick={() => handleRemoveField(ddIdx)}
                 style={{ marginLeft: '0.5rem' }}
               >
                 🗑
@@ -952,7 +1005,7 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
                       <button 
                         type="button" 
                         className="option-remove-btn" 
-                        onClick={() => { handleRemoveOptionFromDropdown(ddIdx, opt.partId); triggerSave(); }}
+                        onClick={() => handleRemoveOptionFromDropdown(ddIdx, opt.partId)}
                       >
                         ×
                       </button>
@@ -965,7 +1018,6 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
                         style={{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-color)', color: '#fff', fontSize: '0.75rem', padding: '0 0.25rem' }}
                         value={opt.quantity}
                         onChange={(e) => handleOptionQtyChange(ddIdx, opt.partId, e.target.value)}
-                        onBlur={triggerSave}
                       />
                     </div>
                   </div>
@@ -992,12 +1044,11 @@ function HotspotFormBuilder({ hotspot, inventory, onSave, onDelete }) {
                       onClick={() => {
                         handleAddOptionToDropdown(ddIdx, p.id);
                         setActiveDropdownIndex(null);
-                        triggerSave();
                       }}
                       onMouseEnter={(e) => e.target.style.background = 'rgba(6, 182, 212, 0.1)'}
                       onMouseLeave={(e) => e.target.style.background = 'transparent'}
                     >
-                      {p.name} (SKU: {p.sku}) - ${parseFloat(p.rate).toFixed(2)}
+                      {p.name} (SKU: {p.sku}) - ₹{parseFloat(p.rate).toFixed(2)}
                     </div>
                   ))}
                   {!partSearchQuery && (
